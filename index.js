@@ -39,14 +39,18 @@ export class Database {
 
     set(property, value) {
         world.setDynamicProperty(this.name + ":" + property, JSON.stringify(value))
-        if (properties[this.name].properties.find((c) => c.split(":")[1] == property)) return console.warn(JSON.stringify(properties[this.name].properties))
+        if (properties[this.name].properties.find((c) => c.split(":")[1] == property)) return
         properties[this.name].properties.push(this.name + ":" + property)
-        console.warn(JSON.stringify(properties[this.name].properties))
     }
 
     get(property) {
         if (world.getDynamicProperty(this.name + ":" + property) === undefined) return undefined
         return JSON.parse(world.getDynamicProperty(this.name + ":" + property))
+    }
+
+    getAll(property) {
+        if (world.getDynamicProperty(this.name + ":" + property) === undefined) return undefined
+        return properties[this.name]
     }
 
     delete(property) {
@@ -56,7 +60,6 @@ export class Database {
 
             world.setDynamicProperty(properties[this.name].properties.find((c) => c.split(":")[1] == property))
             properties[this.name].properties.splice(index, 1)
-            console.warn(JSON.stringify(properties[this.name].properties))
         } else {
             return console.warn('Propriety not found')
         }
